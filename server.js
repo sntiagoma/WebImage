@@ -34,7 +34,7 @@ if(process.env.NODEENV=="dev"){
     console.log("Starting APP");
     address.ipaddress = "127.0.0.1";
 }
-address.port = 3001;
+address.port = 3002;
 
 var terminator = function(sig){
     if (typeof sig === "string") {
@@ -96,15 +96,7 @@ app.use(function(req,res,next){
 });
 
 //Start
-try{
-    app.listen(address.port,address.ipaddress,function(){
-        console.log('%s: Node server started on %s:%d ...',
-            Date(Date.now()), address.ipaddress, address.port);
-    });
-}catch(ex){
-    address.port = 3002;
-    app.listen(address.port,address.ipaddress,function(){
-        console.log('%s: Node server started on %s:%d ...',
-            Date(Date.now()), address.ipaddress, address.port);
-    });
-}
+app.listen(address.port,address.ipaddress,function(){
+    console.log('%s: Node server started on %s:%d ...',
+        Date(Date.now()), address.ipaddress, address.port);
+});
