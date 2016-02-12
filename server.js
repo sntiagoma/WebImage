@@ -26,19 +26,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Set up server IP address and port # with env
 var address = {};
-if(process.env.OPENSHIFT_NODEJS_IP==undefined){
-    console.log("No OpenShift IP using localhost");
-    address.ipaddress = app.locals.pretty = true; //Jade Pretty
+if(process.env.NODEENV=="dev"){
+    console.log("Starting in Developing Mode");
+    app.locals.pretty = true; //Jade Pretty
     address.ipaddress = "127.0.0.1";
 }else{
-    address.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
+    console.log("Starting APP");
+    address.ipaddress = "127.0.0.1";
 }
-address.port = process.env.OPENSHIFT_NODEJS_PORT || 8000;
+address.port = 3001;
 
-//ENDED
 var terminator = function(sig){
     if (typeof sig === "string") {
-       console.log('%s: Received %s - terminating sample app ...',
+       console.log('%s: Received %s - terminating app ...',
                    Date(Date.now()), sig);
        process.exit(1);
     }
@@ -55,6 +55,7 @@ var setupTerminationHandlers = function(){
         process.on(element, function() {terminator(element); });
     });
 };
+
 setupTerminationHandlers();
 
 //Stylesheets SASS
@@ -70,14 +71,11 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 //DB conection
-var mongooseDBName = "rest";
-var mongooseURI = process.env.OPENSHIFT_MONGODB_DB_URL+mongooseDBName;
-mongoose.connect(mongooseURI,function(err,res){
-    if(err){
-        console.log("ERROR: connecting to BD: %s",err);
-    }else{
-        console.log("Database Connected :D");
-    }
+mongoose.connect('mongodb://localhost/webimage');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
 });
 
 //View Engine Setup (Jade)
