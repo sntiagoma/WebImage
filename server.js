@@ -35,7 +35,7 @@ if(process.env.NODEENV=="dev"){
     console.log("Starting APP");
     address.ipaddress = "127.0.0.1";
 }
-address.port = 300;
+address.port = 3002;
 
 var terminator = function(sig){
     if (typeof sig === "string") {
