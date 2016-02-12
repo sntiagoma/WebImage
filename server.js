@@ -96,7 +96,15 @@ app.use(function(req,res,next){
 });
 
 //Start
-app.listen(address.port,address.ipaddress,function(){
-    console.log('%s: Node server started on %s:%d ...',
-        Date(Date.now()), address.ipaddress, address.port);
-});
+try{
+    app.listen(address.port,address.ipaddress,function(){
+        console.log('%s: Node server started on %s:%d ...',
+            Date(Date.now()), address.ipaddress, address.port);
+    });
+}catch(ex){
+    address.port = 3002;
+    app.listen(address.port,address.ipaddress,function(){
+        console.log('%s: Node server started on %s:%d ...',
+            Date(Date.now()), address.ipaddress, address.port);
+    });
+}
