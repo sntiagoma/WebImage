@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Set up server IP address and port # with env
 var address = {};
+address.ipaddress = "127.0.0.1";
 if(process.env.NODEENV=="dev"){
     console.log("Starting in Developing Mode");
     app.locals.pretty = true; //Jade Pretty
@@ -34,7 +35,7 @@ if(process.env.NODEENV=="dev"){
     console.log("Starting APP");
     address.ipaddress = "127.0.0.1";
 }
-address.port = 3002;
+address.port = 300;
 
 var terminator = function(sig){
     if (typeof sig === "string") {
