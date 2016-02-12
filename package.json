@@ -1,0 +1,39 @@
+{
+  "name": "REST",
+  "version": "0.0.1",
+  "description": "RESTful API Example",
+  "keywords": [
+    "Node.js",
+    "application",
+  ],
+  "author": {
+    "name": "Santiago Montoya",
+    "email": "sntiagoma@gmail.com",
+    "url": "http://www.twitter.com/sntiagoma"
+  },
+  "homepage": "http://www.twitter.com/sntiagoma",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openshift/origin-server"
+  },
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "dependencies": {
+    "express": "~4.13.3",
+    "jade": "~1.11.0",
+    "serve-favicon": "~2.3.0",
+    "node-sass-middleware": "0.9.7",
+    "mongoose": "~4.3.6",
+    "morgan": "~1.6.1",
+    "cookie-parser": "~1.4.1",
+    "body-parser": "~1.14.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  },
+  "bundleDependencies": [],
+  "private": true,
+  "main": "server.js"
+}
