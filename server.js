@@ -26,17 +26,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Set up server IP address and port # with env
 var address = {};
-address.ipaddress = "127.0.0.1";
 if(process.env.NODEENV=="dev"){
     console.log("Starting in Developing Mode");
     app.locals.pretty = true; //Jade Pretty
-    address.ipaddress = "127.0.0.1";
 }else{
     console.log("Starting APP");
-    address.ipaddress = "127.0.0.1";
 }
 address.port = 3002;
-
 var terminator = function(sig){
     if (typeof sig === "string") {
        console.log('%s: Received %s - terminating app ...',
@@ -97,7 +93,7 @@ app.use(function(req,res,next){
 });
 
 //Start
-app.listen(address.port,address.ipaddress,function(){
+app.listen(address.port,function(){
     console.log('%s: Node server started on %s:%d ...',
-        Date(Date.now()), address.ipaddress, address.port);
+        Date(Date.now()), '10.131.137.239', address.port);
 });
