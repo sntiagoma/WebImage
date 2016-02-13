@@ -21,14 +21,15 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
+    "body-parser": "~1.14.2",
+    "cookie-parser": "~1.4.1",
     "express": "~4.13.3",
     "jade": "~1.11.0",
-    "serve-favicon": "~2.3.0",
-    "node-sass-middleware": "0.9.7",
+    "log": "^1.4.0",
     "mongoose": "~4.3.6",
     "morgan": "~1.6.1",
-    "cookie-parser": "~1.4.1",
-    "body-parser": "~1.14.2"
+    "node-sass-middleware": "0.9.7",
+    "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0"

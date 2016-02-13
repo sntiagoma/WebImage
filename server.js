@@ -8,6 +8,17 @@ var sassMiddleware = require("node-sass-middleware"); //Sass compiler
 var morgan = require('morgan'); // HTTP request logger
 var cookieParser = require("cookie-parser"); //Cookie Manager
 var bodyParser = require('body-parser'); //JSON-Raw-Text-URLEncoded body parser
+var Log = require('log'), log = new Log("info");
+// Log Levels
+// 0 EMERGENCY system is unusable
+// 1 ALERT action must be taken immediately
+// 2 CRITICAL the system is in critical condition
+// 3 ERROR error condition
+// 4 WARNING warning condition
+// 5 NOTICE a normal but significant condition
+// 6 INFO a purely informational message
+// 7 DEBUG messages to debug an application
+
 //Routes import
 var indexRoute = require("./routes/index");
 var apiRoute = require("./routes/api");
@@ -27,19 +38,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //Set up server IP address and port # with env
 var address = {};
 if(process.env.NODEENV=="dev"){
-    console.log("Starting in Developing Mode");
+    log.debug("Starting APP in Developing Mode");
     app.locals.pretty = true; //Jade Pretty
 }else{
-    console.log("Starting APP");
+    log.debug("Starting APP in Production Mode");
 }
 address.port = 3002;
 var terminator = function(sig){
     if (typeof sig === "string") {
-       console.log('%s: Received %s - terminating app ...',
+        log.info('%s: Received %s - terminating app ...',
                    Date(Date.now()), sig);
        process.exit(1);
     }
-    console.log('%s: Node server stopped.', Date(Date.now()) );
+    log.info('%s: Node server stopped.', Date(Date.now()) );
 };
 var setupTerminationHandlers = function(){
     //  Process on exit and signals.
@@ -70,9 +81,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 //DB conection
 mongoose.connect('mongodb://localhost/webimage');
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', function(err){
+    log.error("Database isn't working",err);
+});
 db.once('open', function() {
-  console.log("Database Connected :D")
+  log.notice("Database Connected");
 });
 
 //View Engine Setup (Jade)
@@ -94,6 +107,5 @@ app.use(function(req,res,next){
 
 //Start
 app.listen(address.port,function(){
-    console.log('%s: Node server started on %s:%d ...',
-        Date(Date.now()), '10.131.137.239', address.port);
+    log.info('Node server started on %s:%d ...','10.131.137.239',address.port);
 });
