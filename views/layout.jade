@@ -1,7 +1,8 @@
 doctype html
-html
+html(ng-app="WebImage")
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    link(rel='stylesheet', href='/css/style.css')
+    script(src="js/app.js")
+  body(ng-controller="WebImageController")
     block content

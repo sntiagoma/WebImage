@@ -1,14 +1,13 @@
 #!/bin/env node
-var express = require("express"); //Server
-var fs = require("fs"); //Filesystem (read/wrote files)
-var path = require("path"); //Path
-var mongoose = require("mongoose"); //Mongodb ODM (Object Document Mapper)
-var favicon = require('serve-favicon'); ///favicon.ico provider
-var sassMiddleware = require("node-sass-middleware"); //Sass compiler
-var morgan = require('morgan'); // HTTP request logger
-var cookieParser = require("cookie-parser"); //Cookie Manager
-var bodyParser = require('body-parser'); //JSON-Raw-Text-URLEncoded body parser
-var Log = require('log'), log = new Log("info");
+var express        = require("express"); //Server
+var fs             = require("fs"); //Filesystem (read/wrote files)
+var path           = require("path"); //Path
+var mongoose       = require("mongoose"); //Mongodb ODM (Object Document Mapper)
+var favicon        = require("serve-favicon"); ///favicon.ico provider
+var morgan         = require("morgan"); // HTTP request logger
+var cookieParser   = require("cookie-parser"); //Cookie Manager
+var bodyParser     = require("body-parser"); //JSON-Raw-Text-URLEncoded body parser
+var Log            = require("log"), log = new Log("info");
 // Log Levels
 // 0 EMERGENCY system is unusable
 // 1 ALERT action must be taken immediately
@@ -26,7 +25,7 @@ var apiRoute = require("./routes/api");
 var app = express();
 
 //HTTP Logger
-app.use(morgan('combined'));
+app.use(morgan("combined"));
 
 //Cookie Manager
 app.use(cookieParser());
@@ -39,8 +38,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var address = {};
 if(process.env.NODEENV=="dev"){
     log.debug("Starting APP in Developing Mode");
-    app.locals.pretty = true; //Jade Pretty
 }else{
+    app.locals.pretty = true; //Jade Pretty
     log.debug("Starting APP in Production Mode");
 }
 address.port = 3002;
@@ -65,15 +64,6 @@ var setupTerminationHandlers = function(){
 };
 
 setupTerminationHandlers();
-
-//Stylesheets SASS
-app.use(sassMiddleware({
-    src: path.join(__dirname, 'sass'),
-    dest: path.join(__dirname, 'public/stylesheets/'),
-    debug: false,
-    outputStyle: 'expanded', //nested, expanded, compact, compressed
-    prefix:  '/stylesheets'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
-}));
 
 //Use public-folder
 app.use(express.static(path.join(__dirname, 'public')));
