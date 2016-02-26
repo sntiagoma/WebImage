@@ -18,6 +18,7 @@ var Log            = require("log"), log = new Log("info");
 // 6 INFO a purely informational message
 // 7 DEBUG messages to debug an application
 
+var address = {};
 //Routes import
 var indexRoute = require("./routes/index");
 var apiRoute = require("./routes/api");
@@ -35,14 +36,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Set up server IP address and port # with env
-var address = {};
-if(process.env.NODEENV=="dev"){
+if(process.env.NODE_ENV=="dev"){
     log.debug("Starting APP in Developing Mode");
+    address.port = process.env.DEVPORT || 8080;
+    app.locals.pretty = true;
+}else if(process.env.NODE_ENV=="production"){
+    log.notice("Starting APP in Production Mode");
+    address.port = process.env.PORT || 80;
+    app.locals.pretty = false;
 }else{
-    app.locals.pretty = true; //Jade Pretty
-    log.debug("Starting APP in Production Mode");
+    log.error("Please set the NODE_ENV var in your system variables");
+    process.exit();
 }
-address.port = 3002;
 var terminator = function(sig){
     if (typeof sig === "string") {
         log.info('%s: Received %s - terminating app ...',
@@ -95,7 +100,15 @@ app.use(function(req,res,next){
     res.status(err.status).render('error',{error:err});
 });
 
+var server = require("http").Server(app);
+//var io = require('socket.io')(server);
+
+//Setting Socket.io Server
+//io.on("connection",
+
+
+
 //Start
-app.listen(address.port,function(){
-    log.info('Node server started on %s:%d ...','10.131.137.239',address.port);
+server.listen(address.port,function(){
+    log.info('Server running on %s:%d ...','localhost',address.port);
 });

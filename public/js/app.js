@@ -1,12 +1,1 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var app = {}
-app.name = "WebImage";
-module.exports = app;
-},{}],2:[function(require,module,exports){
-//var angular = require("angular"); //If don't have internet to try angular
-var app = angular.module("WebImage",[]);
-
-app.controller('WebImageController', ['$scope', function($scope){
-	$scope.title = require("./app.js").name;
-}]);
-},{"./app.js":1}]},{},[2]);
+!function r(e,n,o){function t(a,i){if(!n[a]){if(!e[a]){var f="function"==typeof require&&require;if(!i&&f)return f(a,!0);if(u)return u(a,!0);var c=new Error("Cannot find module '"+a+"'");throw c.code="MODULE_NOT_FOUND",c}var p=n[a]={exports:{}};e[a][0].call(p.exports,function(r){var n=e[a][1][r];return t(n?n:r)},p,p.exports,r,e,n,o)}return n[a].exports}for(var u="function"==typeof require&&require,a=0;a<o.length;a++)t(o[a]);return t}({1:[function(r,e,n){var o={};o.name="WebImage",e.exports=o},{}],2:[function(r,e,n){var o=angular.module("WebImage",[]);o.controller("WebImageController",["$scope",function(e){e.title=r("./app.js").name}])},{"./app.js":1}]},{},[2]);
