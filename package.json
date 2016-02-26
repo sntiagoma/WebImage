@@ -11,6 +11,10 @@
     "email": "sntiagoma@gmail.com",
     "url": "http://www.twitter.com/sntiagoma"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sntiagoma/WebImage"
+  },
   "homepage": "http://www.twitter.com/sntiagoma",
   "repository": {
     "type": "git",
