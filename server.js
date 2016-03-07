@@ -1,15 +1,18 @@
-#!/bin/env node
-var express        = require("express"); //Server
-var fs             = require("fs"); //Filesystem (read/wrote files)
-var path           = require("path"); //Path
-var mongoose       = require("mongoose"); //Mongodb ODM (Object Document Mapper)
-var favicon        = require("serve-favicon"); ///favicon.ico provider
-var morgan         = require("morgan"); // HTTP request logger
-var cookieParser   = require("cookie-parser"); //Cookie Manager
-var bodyParser     = require("body-parser"); //JSON-Raw-Text-URLEncoded body parser
-var Log            = require("log"), log = new Log("info");
-var passport       = require("passport");
-var expressSession = require("express-session");
+#!/usr/bin/env node
+
+//Import
+var express        = require("express");                   //Server
+var fs             = require("fs");                        //Filesystem (read/wrote files)
+var path           = require("path");                      //Path
+var mongoose       = require("mongoose");                  //Mongodb ODM (Object Document Mapper)
+var favicon        = require("serve-favicon");             //favicon.ico provider
+var morgan         = require("morgan");                    //HTTP request logger
+var cookieParser   = require("cookie-parser");             //Cookie Manager
+var bodyParser     = require("body-parser");               //JSON-Raw-Text-URLEncoded body parser
+var Log            = require("log"), log = new Log("info");//Log Manager
+var passport       = require("passport");                  //Passport
+var expressSession = require("express-session");           //Session Manager
+
 // Log Levels
 // 0 EMERGENCY system is unusable
 // 1 ALERT action must be taken immediately
@@ -21,11 +24,16 @@ var expressSession = require("express-session");
 // 7 DEBUG messages to debug an application
 
 var address = {};
+
 //Routes import
 var indexRoute = require("./routes/index");
 var apiRoute = require("./routes/api");
 
+//Express App
 var app = express();
+
+//Set up server IP address and port # with env
+require("./util/env.js")(app,address,log);
 
 //HTTP Logger
 app.use(morgan("combined"));
@@ -35,13 +43,14 @@ app.use(cookieParser());
 
 //Body Parser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 //Passport
 app.use(expressSession({secret: 'una_clave_secreta'}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+/*
 
 passport.serializeUser(function(user, done){
     done(null, user._id);
@@ -123,55 +132,18 @@ var createHash = function(pass){
     return bCrypt.hashSync(pass, bCrypt.genSaltSync(10), null);
 }
 
+*/
 
 
-//Set up server IP address and port # with env
-if(process.env.NODE_ENV=="dev"){
-    log.debug("Starting APP in Developing Mode");
-    address.port = process.env.DEVPORT || 8080;
-    app.locals.pretty = true;
-}else if(process.env.NODE_ENV=="production"){
-    log.notice("Starting APP in Production Mode");
-    address.port = process.env.PORT || 80;
-    app.locals.pretty = false;
-}else{
-    log.error("Please set the NODE_ENV var in your system variables");
-    process.exit();
-}
-var terminator = function(sig){
-    if (typeof sig === "string") {
-        log.info('%s: Received %s - terminating app ...',
-                   Date(Date.now()), sig);
-       process.exit(1);
-    }
-    log.info('%s: Node server stopped.', Date(Date.now()) );
-};
-var setupTerminationHandlers = function(){
-    //  Process on exit and signals.
-    process.on('exit', function() {terminator(); });
 
-    // Removed 'SIGPIPE' from the list - bugz 852598.
-    ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
-     'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-    ].forEach(function(element, index, array) {
-        process.on(element, function() {terminator(element); });
-    });
-};
-
-setupTerminationHandlers();
+//Terminator
+require("./util/terminator.js")();
 
 //Use public-folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 //DB conection
-mongoose.connect('mongodb://localhost/webimage');
-var db = mongoose.connection;
-db.on('error', function(err){
-    log.error("Database isn't working",err);
-});
-db.once('open', function() {
-  log.notice("Database Connected");
-});
+require("./util/db.js")(mongoose);
 
 //View Engine Setup (Jade)
 app.set('views',path.join(__dirname,'views'));
@@ -182,13 +154,7 @@ app.use(favicon(path.join(__dirname,'public','favicon.ico')));
 
 
 //Routes
-app.use('/',indexRoute);
-app.use('/api',apiRoute);
-app.use(function(req,res,next){
-    var err = new Error('Not Found');
-    err.status = 404;
-    res.status(err.status).render('error',{error:err});
-});
+require("./util/routes.js")(app);
 
 var server = require("http").Server(app);
 //var io = require('socket.io')(server);
