@@ -1,0 +1,39 @@
+extends layout
+
+block content
+    .card
+      .card-content
+        span.card-title Sign Up
+        .row
+          form.col.s12(action='/signup', method='POST')
+            .row
+              .input-field.col.s6
+                input#first_name.validate(type='text', name='firstName', class='form-control', placeholder='First Name',required)
+                label(for='first_name') First Name
+              .input-field.col.s6
+                input#last_name.validate(type='text', name='lastName', class='form-control', placeholder='Last Name',required)
+                label(for='last_name') Last Name
+            .row
+              .input-field.col.s12
+                input#disabled.validate(type='text', name='username', class='form-control', placeholder='Username',required, autofocus)
+                label(for='username') Username
+            .row
+              .input-field.col.s12
+                input#password.validate(type='password', name='password', class='form-control nomargin', placeholder='Password', required)
+                label(for='password') Password
+            .row
+              .input-field.col.s12
+                input#email.validate(type='email', name='email', class='form-control', placeholder='Email',required)
+                label(for='email') Email
+            .row
+              .input-field.col.s12
+                button.btn.waves-effect.waves-light(type='submit', name='action')
+                  | Submit
+                  i.material-icons.right send
+            .row#message
+                if message
+                    h1.text-center.error-message #{message}
+      .card-action
+        a(href='/') Home
+        a(href='/signin') Sign in
+                            

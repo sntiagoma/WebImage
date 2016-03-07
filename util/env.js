@@ -15,7 +15,7 @@ var check = function(app,address,log){
         address.port = process.env.PORT || 80;
         app.locals.pretty = false;
     }else{
-        log.error("Please set the NODE_ENV var in your system variables");
+        log.error("Please set the NODE_ENV var in your system variables to 'dev' or 'production'");
         process.exit();
     }
 }

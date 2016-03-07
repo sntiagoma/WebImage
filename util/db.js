@@ -3,7 +3,7 @@
  * @param  {moongoose} mongoose Paquete desde el require
  * @return {void}          Se conecta a la base de datos
  */
-var db = function(mongoose){
+var db = function(mongoose,log){
     mongoose.connect('mongodb://localhost/webimage');
     var db = mongoose.connection;
     db.on('error', function(err){

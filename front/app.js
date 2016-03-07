@@ -1,3 +1,3 @@
 var app = {}
-app.name = "WebImage";
+app.name = "Iris";
 module.exports = app;

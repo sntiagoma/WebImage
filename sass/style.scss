@@ -1,11 +1,18 @@
+$mainColor: #1BB088;
+$background: #F4F4F4;
+
 body{
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: $background;
+    .background{
+        background-color: $mainColor !important;
+    }
+    #logo{
+        font-family: 'Roboto' !important;
+        font-style: normal;
+        font-weight: 300;
+    }
 }
-a{
-  color: #00B7FF;
-}
-.map{
-  background-color: #00B7FF;
-  color: red;
+
+.flat{
+    box-shadow: none;
 }

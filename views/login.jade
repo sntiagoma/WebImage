@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    .card
+      .card-content
+        span.card-title Sign in
+        .row
+          form.col.s12(action='/signin', method='POST')
+            .row
+              .input-field.col.s12
+                input#disabled.validate(type='text', name='username', class='form-control', placeholder='Username',required, autofocus)
+                label(for='username') Username
+            .row
+              .input-field.col.s12
+                input#password.validate(type='password', name='password', class='form-control nomargin', placeholder='Password', required)
+                label(for='password') Password
+            .row
+              .input-field.col.s12
+                button.btn.waves-effect.waves-light(type='submit', name='action')
+                  | Submit
+                  i.material-icons.right send
+            .row#message
+                if message
+                    h1.text-center.error-message #{message}
+      .card-action
+        a(href='/') Home
+        a(href='/signup') Sign up
