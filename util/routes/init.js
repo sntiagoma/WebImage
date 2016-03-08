@@ -8,7 +8,7 @@ var apiRoute = require("./api");
  * @return {void}     Asigna las vistas a cada ruta de la App
  */
 var views = function(app, passport, uploading){
-    app.use('/',indexRoute(passport,uploading.single("image")));
+    app.use('/',indexRoute(passport,uploading));
     app.use('/api',apiRoute());
     app.use(
         function(req,res,next){

@@ -45,8 +45,8 @@ module.exports = function(passport, uploading){
        res.render('upload',{user:req.user}); 
     });
 
-    router.post('/upload', isAuthenticated, uploading, function(req, res){
-       res.send(req.files);
+    router.post('/upload', isAuthenticated, uploading.single("image"), function(req, res){
+       res.send(req.file);
     });
 
     return router;
