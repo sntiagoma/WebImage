@@ -79,7 +79,7 @@ module.exports = function(passport, uploading){
                             return;
                         }
                     });
-                    res.send(image.filename); //CHANGE THIS!;
+                    res.redirect("/image/"+image._id);
                 });
             }catch(e){
                 res.send(e);
@@ -89,5 +89,28 @@ module.exports = function(passport, uploading){
         }
     });
 
+    router.get("/user/:id", function(req, res){
+        User.findOne(
+            {username: req.params.id},
+            function(error, user){
+                if(error){
+                    res.redirect("/404");
+                }
+                res.render('user',{user:user});
+            }
+        );
+    });
+
+    router.get("/image/:id", function(req, res){
+        Image.findOne(
+            {_id: req.params.id},
+            function(error, image){
+                if(error){
+                    res.redirect("/404");
+                }
+                res.render('image',{image:image});
+            }
+        );
+    });
     return router;
 }

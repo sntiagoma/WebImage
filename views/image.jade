@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .row
+    .col.s12.m6.offset-m3
+      .card.white
+        .card-content
+          span.card-title
+            | #{image.originalname} (#{image.mimetype})
+          p
+            | Date: #{image.date}
+        .card-action
+  .row
+    .col.s12.m12
+      .card.white
+        .card-content
+          .row
+            img(src="/file/#{image.filename}")

@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .row
+    .col.s12.m6.offset-m3
+      .card.white
+        .card-content
+          span.card-title
+            | @#{user.username} profile
+          p
+            | Email: #{user.email}
+        .card-action
+  .row
+    .col.s12.m12
+      .card.white
+        .card-content
+          .row
+            each val, index in user.images
+              .col.s12.m6
+                a(href="/image/#{val}") #{val}
