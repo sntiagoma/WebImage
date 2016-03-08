@@ -1,5 +1,8 @@
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
+var Mime    = require("../../util/mime");
+var Image   = require("../../models/image");
+var User    = require("../../models/user");
 
 var isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()){
@@ -46,7 +49,44 @@ module.exports = function(passport, uploading){
     });
 
     router.post('/upload', isAuthenticated, uploading.single("image"), function(req, res){
-       res.send(req.file);
+        var mime = new Mime(req.file.mimetype);
+        if(mime.isImage()){
+            try{
+                req.user.save(function(error){
+                    if(error){
+                        return handleError(error)
+                    }
+                    var file = req.file;
+                    var image = new Image({
+                            originalname: file.originalname,
+                            encoding: file.encoding,
+                            mimetype: file.mimetype,
+                            filename: file.filename,
+                            size: file.size,
+                            date: new Date(),
+                            user: req.user.id,
+                    });
+                    image.save(function(error){
+                        if(error){
+                            res.send("Error while trying to save image to the db");
+                            return;
+                        }
+                    });
+                    req.user.images.push(image.id);
+                    req.user.save(function(error){
+                        if(error){
+                            res.send("Error while trying to add image to the user");
+                            return;
+                        }
+                    });
+                    res.send(image.filename); //CHANGE THIS!;
+                });
+            }catch(e){
+                res.send(e);
+            }
+        }else{
+            res.send("Error While trying to upload image");
+        }
     });
 
     return router;

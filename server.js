@@ -13,6 +13,7 @@ var passport       = require("passport");                  //Passport
 var expressSession = require("express-session");           //Session Manager
 var flash          = require("connect-flash");             //Messages while user is redirected
 var multer         = require("multer");                    //File Upload
+var Mime           = require("./util/mime");
 // Log Levels
 // 0 EMERGENCY system is unusable
 // 1 ALERT action must be taken immediately
@@ -80,6 +81,14 @@ var uploading = multer(
         limits: {
             fileSize: 10000000, //Aprox. 10MB
             files:1
+        },
+        fileFilter: function(req, file, cb){
+            var mime = new Mime(file.mimetype);
+            if(mime.isImage()){
+                cb(null,true);
+            }else{
+                cb(null,false);
+            }
         }
     }
 );

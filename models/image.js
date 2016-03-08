@@ -1,10 +1,14 @@
-var mongoose = require("mongoose"), Schema = mongoose.Schema;
-var image = new Schema({
-	id: String,
-	url: String, 
-	tags: [],
-	date: Date
+var mongoose = require('mongoose');
+
+module.exports = mongoose.model("Image",{
+    originalname: String,
+    encoding: String,
+    mimetype: String,
+    filename: String,
+    size: Number,
+    date: {
+        type:Date,
+        default: new Date()
+    },
+    user: String
 });
-
-
-module.exports = mongoose.model("Image",image);
