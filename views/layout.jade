@@ -11,6 +11,19 @@ html(ng-app="WebImage")
     script(src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
     script(src="/js/app.js")
   body(ng-controller="WebImageController")
+    ul#dropdown1.dropdown-content
+      if(!user)
+        li
+          a(href='/signin') Sign in
+        li
+          a(href='/signup') Sign up
+      if(user)
+        li
+          a(href="/signout") Logout
+      li.divider
+      li
+        a(href='/about') About
+
     nav.background.flat(role='navigation')
       .nav-wrapper.container(ng-hide="searchBar")
         form
@@ -26,14 +39,18 @@ html(ng-app="WebImage")
             a(ng-click="showSearchBar()")
               i.material-icons search
           li
-            a(href='badges.html')
+            a(href='/explore')
               i.material-icons view_module
           li
-            a(href='collapsible.html')
-              i.material-icons refresh
+            a(href='/upload')
+              i.material-icons open_in_browser
           li
-            a(href='mobile.html')
+            a.dropdown-button(href='#!', data-activates='dropdown1')
               i.material-icons more_vert
 
     div.container
         block content
+
+
+    script.
+      $(".dropdown-button").dropdown();

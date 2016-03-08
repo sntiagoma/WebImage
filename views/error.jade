@@ -1,6 +1,13 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error}
+    .row
+      .col.s12
+        .card
+          .card-image
+            img(src='//i.imgur.com/GbsrT8s.png')
+            span.card-title.black-text.center #{error}
+          .card-content
+            p=message
+          .card-action
+            a(href='/') Go back home

@@ -11,8 +11,8 @@ var bodyParser     = require("body-parser");               //JSON-Raw-Text-URLEn
 var Log            = require("log"), log = new Log("info");//Log Manager
 var passport       = require("passport");                  //Passport
 var expressSession = require("express-session");           //Session Manager
-var flash          = require('connect-flash');             //Messages while user is redirected
-
+var flash          = require("connect-flash");             //Messages while user is redirected
+var multer         = require("multer");                    //File Upload
 // Log Levels
 // 0 EMERGENCY system is unusable
 // 1 ALERT action must be taken immediately
@@ -73,9 +73,19 @@ app.set('view engine','jade');
 //Favicon
 app.use(favicon(path.join(__dirname,'public','favicon.ico')));
 
+//File Uploader
+var uploading = multer(
+    {
+        dest: path.join(__dirname,'public','file'),
+        limits: {
+            fileSize: 10000000, //Aprox. 10MB
+            files:1
+        }
+    }
+);
 
 //Routes
-require("./util/routes/init")(app, passport);
+require("./util/routes/init")(app, passport, uploading);
 
 var server = require("http").Server(app);
 //var io = require('socket.io')(server);

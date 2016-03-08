@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    .card
+      .card-content
+        span.card-title Upload
+        .row
+          form.col.s12(action='/upload', method='POST', enctype="multipart/form-data")
+            .row
+              .input-field.col.s12.file-field
+                  .btn
+                    span File
+                    input(type='file',name="image")
+                  .file-path-wrapper
+                    input.file-path.validate(type='text')
+            .row
+              .input-field.col.s12
+                button.btn.waves-effect.waves-light(type='submit', name='action')
+                  | Upload
+      .card-action
+        a(href='/') Home
+        a(href='/signup') Sign up

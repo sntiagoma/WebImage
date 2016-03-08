@@ -7,12 +7,12 @@ var apiRoute = require("./api");
  * @param  {express} app Instancia de la aplicación express
  * @return {void}     Asigna las vistas a cada ruta de la App
  */
-var views = function(app, passport){
-    app.use('/',indexRoute(passport));
+var views = function(app, passport, uploading){
+    app.use('/',indexRoute(passport,uploading.single("image")));
     app.use('/api',apiRoute());
     app.use(
         function(req,res,next){
-            var err = new Error('Not Found');
+            var err = new Error("404 Not Found");
             err.status = 404;
             res.status(err.status).render('error',{error:err});
             next(err);

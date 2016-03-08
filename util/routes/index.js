@@ -8,9 +8,9 @@ var isAuthenticated = function (req, res, next) {
     res.redirect('/');
 };
 
-module.exports = function(passport){
+module.exports = function(passport, uploading){
     router.get('/', function(req, res) {
-      res.render('index', { title: 'WebImage' });
+      res.render('index', { title: 'Iris - The awesome image host' });
     });
 
     router.get('/signin', function(req, res) {
@@ -39,6 +39,14 @@ module.exports = function(passport){
     router.get('/signout', function(req, res) {
         req.logout();
         res.redirect('/signin');
+    });
+
+    router.get('/upload', isAuthenticated, function(req, res){
+       res.render('upload',{user:req.user}); 
+    });
+
+    router.post('/upload', isAuthenticated, uploading, function(req, res){
+       res.send(req.files);
     });
 
     return router;
