@@ -9,6 +9,7 @@ html(ng-app="WebImage")
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js")
     script(type='text/javascript', src='//code.jquery.com/jquery-2.1.1.min.js')
     script(src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js')
     script(src="/js/app.js")
   body(ng-controller="WebImageController")
     ul#dropdown1.dropdown-content
@@ -48,7 +49,7 @@ html(ng-app="WebImage")
             a.dropdown-button(href='#!', data-activates='dropdown1')
               i.material-icons more_vert
 
-    div.container
+    div
         block content
 
 

@@ -13,7 +13,7 @@ var isAuthenticated = function (req, res, next) {
 
 module.exports = function(passport, uploading){
     router.get('/', function(req, res) {
-      res.render('index', { title: 'Iris - The awesome image host' });
+      res.render('index', { title: 'Iris' });
     });
 
     router.get('/signin', function(req, res) {
@@ -95,8 +95,12 @@ module.exports = function(passport, uploading){
             function(error, user){
                 if(error){
                     res.redirect("/404");
+                }else{
+                    if(user==null){
+                        res.redirect("/404");
+                    }
+                    res.render('user',{user:user});
                 }
-                res.render('user',{user:user});
             }
         );
     });
