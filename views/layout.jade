@@ -29,7 +29,7 @@ html(ng-app="WebImage")
       .nav-wrapper.container(ng-hide="searchBar")
         form
           .input-field
-            input#search(type='search', required='')
+            input#search(type='search', required='', placeholder="Not Working Yet")
             label(for='search')
               i.material-icons search
             i.material-icons close
@@ -39,9 +39,13 @@ html(ng-app="WebImage")
           li
             a(ng-click="showSearchBar()")
               i.material-icons search
-          li
-            a(href='/explore')
-              i.material-icons view_module
+          //li
+          //  a(href='/explore')
+          //    i.material-icons view_module
+          if(user)
+            li
+              a(href="/user/#{user.username}")
+                i.material-icons person_pin
           li
             a(href='/upload')
               i.material-icons open_in_browser
