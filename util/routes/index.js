@@ -22,7 +22,7 @@ module.exports = function(passport, uploading){
     router.post('/signin', passport.authenticate('login', {
         successRedirect: '/home',
         failureRedirect: '/signin',
-        failureFlash : true  
+        failureFlash : true
     }));
 
     router.get('/signup', function(req, res){
@@ -32,7 +32,7 @@ module.exports = function(passport, uploading){
     router.post('/signup', passport.authenticate('signup', {
         successRedirect: '/home',
         failureRedirect: '/signup',
-        failureFlash : true  
+        failureFlash : true
     }));
 
     router.get('/home', isAuthenticated, function(req, res){
@@ -45,7 +45,7 @@ module.exports = function(passport, uploading){
     });
 
     router.get('/upload', isAuthenticated, function(req, res){
-       res.render('upload',{user:req.user}); 
+       res.render('upload',{user:req.user});
     });
 
     router.post('/upload', isAuthenticated, uploading.single("image"), function(req, res){
