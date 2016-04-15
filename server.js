@@ -75,6 +75,19 @@ app.set('view engine','jade');
 app.use(favicon(path.join(__dirname,'public','favicon.ico')));
 
 //File Uploader
+
+//AQUI SE HACE EL ROUND ROBIN
+var path_to_file_204 = '/mnt/nodo204images';
+var path_to_file_180 = '/mnt/nodo180images';
+var bool = true;
+
+var storage = multer.diskStorage({
+  destination: function(req, file, db){
+    cb(null, bool ? path_to_file_204 : path_to_file_180);
+    bool = !bool; //shuffle
+  }
+});
+
 var uploading = multer(
     {
         dest: path.join(__dirname,'public','file'),
@@ -89,7 +102,8 @@ var uploading = multer(
             }else{
                 cb(null,false);
             }
-        }
+        },
+        storage: storage
     }
 );
 
